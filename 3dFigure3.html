@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>3dFigure</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<style>
+
+	
+	.carousel{
+
+		margin: 0 auto;
+		transform-style: preserve-3d;
+		position: relative;
+		width: 166px;
+		height: 400px;
+		transform: translateZ(-200px);
+		transition: transform 1s ease-out;
+		display: none;
+	}
+	.carousel > div{
+		position: absolute; /* 8개의 div 겹치기 */
+		width: 166px;
+		height: 250px;
+		border: 1px solid green
+	}
+
+	.carousel > div:nth-child(1){
+		transform: translateZ(200px);
+	}	
+	.carousel > div:nth-child(2){
+		transform: rotateY(45deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(3){
+		transform: rotateY(90deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(4){
+		transform: rotateY(135deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(5){
+		transform: rotateY(180deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(6){
+		transform: rotateY(225deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(7){
+		transform: rotateY(270deg) translateZ(200px);
+	}
+	.carousel > div:nth-child(8){
+		transform: rotateY(315deg) translateZ(200px);
+	}
+
+	.wrapper {
+		perspective: 500px;
+		perspective-origin: 50% 50%;
+		margin-top: 200px;
+		border: 1px solid red;
+	}
+	.cube{
+		transform-style: preserve-3d;
+		transform-origin: 50% 50%;
+		position: relative;
+		width: 400px;
+		height: 400px;
+		margin: 0 auto; /* 가운데 정렬 */
+		/* 왜 -200px 을 해주어야 하는지 이유를 아는게 중요! */
+		transform: translateZ(-200px);
+		transition: all 0.5s ease-out;
+		color: white;
+		font-size: 100px;
+		text-align: center;
+		line-height: 300px;
+	}
+	.cube > div{
+		position: absolute;
+		width: 400px;
+		height: 400px;
+		opacity: 0.6;
+		background-color: #2e272f;
+	}
+	.cube img{
+		width: 400px;
+		height: 400px;
+	}
+	/* .cube 첫번째 자식요소 선택 */
+	.cube > div:nth-child(1){
+		transform: translateZ(200px);
+	}
+	.cube > div:nth-child(2){
+		transform: rotateY(90deg) translateZ(200px);
+	}
+	.cube > div:nth-child(3){
+		transform: rotateY(180deg) translateZ(200px);
+	}
+	.cube > div:nth-child(4){
+		transform: rotateY(270deg) translateZ(200px);
+	}
+	.cube > div:nth-child(5){
+		transform: rotateX(90deg) translateZ(200px);
+	}
+	.cube > div:nth-child(6){
+		transform: rotateX(-90deg) translateZ(200px);
+	}
+		.cube > div:nth-child(7){
+		opacity: 0;
+	}
+
+	/*.cube:hover{
+		transform: translateZ(-200px) rotateY(45deg);
+	}*/
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="cube">
+		<div>1</div>
+		<div>2</div>
+		<div>3</div>
+		<div>4</div>
+		<div>5</div>
+		<div>6</div>
+		<div>index</div>
+	</div>
+	<div class="carousel">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>
+
+
+
+
+<button class="qCube">정육면체</button>
+<button class="oct">옥타곤</button>
+
+<div class="container">
+	<ul class="pager">
+		<!-- <li><a href="javascript:" id="prev">이전</a></li>
+		<li><a href="javascript:" id="next">다음</a></li>
+		<li><a href="javascript:" id="up">위</a></li>
+		<li><a href="javascript:" id="down">아래</a></li> -->
+	</ul>
+</div>
+
+<script src="js/jquery-3.2.0.js"></script>
+<script>
+
+
+	
+	$('.qCube').click(function() {
+		$('.cube').css('display', 'block');
+		$('.carousel').css('display', 'none');
+	})
+
+	$('.oct').click(function() {
+		$('.cube').css('display', 'none');
+		$('.carousel').css('display', 'block');
+	})
+
+	var ry = 0;
+	var rx = 0;
+
+var dragging = false;
+
+var mousepress = {};
+
+var target = $('.cube, .carousel')
+target.mousedown(function() {
+    dragging = true;
+})
+$('body').mouseup(function() {
+    dragging = false;
+})
+$('body').mousemove(function(e) {
+    if (dragging) {
+
+        var x = e.pageX-500;
+        var y = -(e.pageY-400);
+        var z = (e.pageY-400)/(e.pageX-500);
+
+
+        // var radians = Math.atan2(x, y);
+        // var degree = (radians * (180 / Math.PI)) - 90;
+
+        // console.log('angle : '+degree);
+        // console.log('X : ' +x);
+        // console.log('Y : ' +y);
+
+
+        target.css('transform', 'translateZ(-200px) rotateX('+ y +'deg) rotateY('+ x +'deg)');
+        // target.css('transform', 'trnaslateZ(-200px) rotateX('+x+')deg');
+       	 target.css('transform-origin', '50% 50% 50%');
+
+     }	
+})
+
+</script>	
+</body>
+</html>
+
